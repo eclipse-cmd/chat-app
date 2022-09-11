@@ -21,6 +21,7 @@ const Chat: React.FC = ({}) => {
   const [inputMessage, setInputMessage] = useState("");
   const [messages, setMessages] = useState<Array<Message>>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [page, setPage] = useState<number>(messageData.value.length);
 
   const handleSendMessage = () => {
     if (!inputMessage.trim().length) {
@@ -44,7 +45,18 @@ const Chat: React.FC = ({}) => {
   };
 
   const loadMore = () => {
-    console.log("messages");
+    // setPage(messages.length + 25); to be fixed
+
+    const offset =
+      messageData.value.length - page > 0 ? messageData.value.length - page : 0;
+    const limit = messageData.value.length - 25;
+
+    console.log("Offset: ", offset);
+    console.log("Limit: ", limit);
+
+    const data = messageData.value.slice(offset, limit);
+
+    setMessages((old) => [...data, ...old]);
   };
 
   useEffect(() => {
@@ -53,7 +65,7 @@ const Chat: React.FC = ({}) => {
       dispatch(getMessages());
 
       //Set messages
-      setMessages(messageData.value);
+      setMessages(messageData.value.slice(page));
 
       setTimeout(() => setLoading(false), 1000);
     }, 1000);
@@ -61,14 +73,16 @@ const Chat: React.FC = ({}) => {
     return () => {
       clearInterval(interval);
     };
-  }, [dispatch, messageData]);
+  }, [dispatch, messageData, page]);
 
   return (
     <Flex w="100%" h="100vh" justify="center" align="center">
       <Flex w={["100%", "100%", "40%"]} h="90%" flexDir="column">
         <Header />
         <Divider />
-        {messages.length > 25 && (
+        {!loading &&
+        messageData.value.length > 25 &&
+        messageData.value.length != messages.length ? (
           <HStack>
             <Center width="100%" my={5}>
               <Button onClick={() => loadMore()} size="sm">
@@ -76,7 +90,7 @@ const Chat: React.FC = ({}) => {
               </Button>
             </Center>
           </HStack>
-        )}
+        ) : null}
         <Messages messages={messages} loading={loading} />
         <Divider />
         <Footer

@@ -1,7 +1,7 @@
 import useAuth from "@/hooks/useAuth";
 import { Message } from "@/services/types";
 import { Avatar, Center, Flex, Text } from "@chakra-ui/react";
-import React, { useRef } from "react";
+import React from "react";
 
 interface MessagesProps {
   messages: Array<Message>;
@@ -10,14 +10,6 @@ interface MessagesProps {
 
 const Messages: React.FC<MessagesProps> = ({ messages, loading }) => {
   const { user } = useAuth();
-
-  const AlwaysScrollToBottom = () => {
-    const elementRef = useRef(null);
-
-    // useEffect(() => elementRef.current);
-
-    return <div ref={elementRef} />;
-  };
 
   return (
     <>
@@ -67,8 +59,6 @@ const Messages: React.FC<MessagesProps> = ({ messages, loading }) => {
               );
             }
           })}
-
-          <AlwaysScrollToBottom />
         </Flex>
       ) : (
         <Flex w="100%" h="80%" flexDirection="column" p="3">
