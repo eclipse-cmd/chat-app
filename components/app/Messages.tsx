@@ -5,9 +5,10 @@ import React, { useRef } from "react";
 
 interface MessagesProps {
   messages: Array<Message>;
+  loading: boolean;
 }
 
-const Messages: React.FC<MessagesProps> = ({ messages }) => {
+const Messages: React.FC<MessagesProps> = ({ messages, loading }) => {
   const { user } = useAuth();
 
   const AlwaysScrollToBottom = () => {
@@ -20,7 +21,13 @@ const Messages: React.FC<MessagesProps> = ({ messages }) => {
 
   return (
     <>
-      {messages.length > 0 ? (
+      {loading ? (
+        <>
+          <Flex w="100%" h="80%" flexDirection="column" p="3">
+            <Center>Loading messages</Center>
+          </Flex>
+        </>
+      ) : messages.length > 0 ? (
         <Flex w="100%" h="80%" overflowY="scroll" flexDirection="column" p="3">
           {messages.map((item, index) => {
             if (item.from.id === user?.id) {
@@ -64,11 +71,9 @@ const Messages: React.FC<MessagesProps> = ({ messages }) => {
           <AlwaysScrollToBottom />
         </Flex>
       ) : (
-        <>
-          <Flex w="100%" h="80%" flexDirection="column" p="3">
-            <Center>No messages here yet</Center>
-          </Flex>
-        </>
+        <Flex w="100%" h="80%" flexDirection="column" p="3">
+          <Center>No messages here yet</Center>
+        </Flex>
       )}
     </>
   );

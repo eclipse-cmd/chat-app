@@ -61,11 +61,21 @@ const Login = () => {
             <Stack spacing={4}>
               <FormControl id="email">
                 <FormLabel>First name</FormLabel>
-                <Input name="firstname" onChange={inputsHandler} type="text" />
+                <Input
+                  name="firstname"
+                  required
+                  onChange={inputsHandler}
+                  type="text"
+                />
               </FormControl>
               <FormControl id="password">
                 <FormLabel>Last name</FormLabel>
-                <Input name="lastname" onChange={inputsHandler} type="text" />
+                <Input
+                  name="lastname"
+                  required
+                  onChange={inputsHandler}
+                  type="text"
+                />
               </FormControl>
               <Stack spacing={10}>
                 <Button

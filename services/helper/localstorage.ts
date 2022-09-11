@@ -4,7 +4,7 @@ export const setLocalStorage = (
   value: any,
   key: string = "chat-app-messages"
 ): void => {
-  localStorage.setItem(key, JSON.stringify(value));
+  localStorage.setItem(key, encodeURIComponent(JSON.stringify(value)));
 };
 
 export const getLocalStorage = (key: string = "chat-app-messages") => {
@@ -16,5 +16,5 @@ export const getLocalStorage = (key: string = "chat-app-messages") => {
 
   if (!value) return null;
 
-  return JSON.parse(value);
+  return JSON.parse(decodeURIComponent(value)) ?? [];
 };
