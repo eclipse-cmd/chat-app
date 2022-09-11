@@ -58,7 +58,8 @@ const Messages: React.FC<MessagesProps> = ({ messages }) => {
           );
         }
       })}
-      {/* <AlwaysScrollToBottom /> */}
+
+      <AlwaysScrollToBottom />
     </Flex>
   );
 };

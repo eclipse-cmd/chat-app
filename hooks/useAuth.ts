@@ -1,4 +1,4 @@
-import { isServer } from "@/services/helper/isServer";
+import { getSession } from "@/services/helper/session";
 import { User } from "@/services/types";
 import { useEffect, useState } from "react";
 
@@ -10,14 +10,15 @@ const useAuth = () => {
   useEffect(() => {
     setLoading(true);
 
-    const data = sessionStorage.getItem("chat-app-user");
+    const data = getSession();
 
     if (data) {
-      setUser(JSON.parse(data));
+      setUser(data);
+
       setAuth(true);
     }
 
-    setTimeout(() => setLoading(false), 2000);
+    setTimeout(() => setLoading(false), 1000);
   }, []);
 
   return { auth, user, loading };
