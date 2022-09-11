@@ -1,6 +1,4 @@
-import { isClient } from "@/services/helper/isClient";
-import { setSession } from "@/services/helper/session";
-import { uuid } from "@/services/helper/uuid";
+import { isClient, setSession, uuid } from "@/services/helper";
 import {
   Box,
   Button,

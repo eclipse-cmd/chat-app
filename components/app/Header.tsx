@@ -1,6 +1,5 @@
-import React from "react";
-import { Flex, Avatar, AvatarBadge, Text } from "@chakra-ui/react";
 import useAuth from "@/hooks/useAuth";
+import { Avatar, AvatarBadge, Flex, Text } from "@chakra-ui/react";
 
 const Header = () => {
   const { user } = useAuth();

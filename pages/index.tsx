@@ -9,12 +9,6 @@ const Home: NextPage = () => {
   const router = useRouter();
   const { auth, user, loading } = useAuth();
 
-  // const auth = false;
-
-  console.log("Auth: ", auth);
-  console.log("User: ", user);
-  console.log("Loading: ", loading);
-
   useEffect(() => {
     if (!loading && !auth) {
       router.push("/login");
