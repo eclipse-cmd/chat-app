@@ -1,3 +1,4 @@
+import Chat from "@/components/Chat";
 import useAuth from "@/hooks/useAuth";
 import type { NextPage } from "next";
 
@@ -6,13 +7,9 @@ const Home: NextPage = () => {
 
   console.log("Auth: ", auth);
   console.log("User: ", user);
-  console.log("Loader: ", loading);
+  console.log("Loading: ", loading);
 
-  return (
-    <>
-      <h4>home page</h4>
-    </>
-  );
+  return <Chat />;
 };
 
 export default Home;

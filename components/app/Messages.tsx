@@ -1,24 +1,27 @@
 import React, { useEffect, useRef } from "react";
 import { Avatar, Flex, Text } from "@chakra-ui/react";
+import { Message } from "@/services/types";
+import useAuth from "@/hooks/useAuth";
 
 interface MessagesProps {
-  messages: Array<{
-    text: string;
-    from: string;
-  }>;
+  messages: Array<Message>;
 }
 
 const Messages: React.FC<MessagesProps> = ({ messages }) => {
+  const { user } = useAuth();
+
   const AlwaysScrollToBottom = () => {
-    // const elementRef = useRef();
-    // useEffect(() => elementRef.current.scrollIntoView());
-    // return <div ref={elementRef} />;
+    const elementRef = useRef(null);
+
+    // useEffect(() => elementRef.current);
+
+    return <div ref={elementRef} />;
   };
 
   return (
     <Flex w="100%" h="80%" overflowY="scroll" flexDirection="column" p="3">
       {messages.map((item, index) => {
-        if (item.from === "me") {
+        if (item.from.id === user?.id) {
           return (
             <Flex key={index} w="100%" justify="flex-end">
               <Flex
@@ -26,6 +29,7 @@ const Messages: React.FC<MessagesProps> = ({ messages }) => {
                 color="white"
                 minW="100px"
                 maxW="350px"
+                borderRadius={5}
                 my="1"
                 p="3">
                 <Text>{item.text}</Text>
@@ -36,12 +40,14 @@ const Messages: React.FC<MessagesProps> = ({ messages }) => {
           return (
             <Flex key={index} w="100%">
               <Avatar
-                name="Computer"
-                src="https://avataaars.io/?avatarStyle=Transparent&topType=LongHairStraight&accessoriesType=Blank&hairColor=BrownDark&facialHairType=Blank&clotheType=BlazerShirt&eyeType=Default&eyebrowType=Default&mouthType=Default&skinColor=Light"
-                bg="blue.300"></Avatar>
+                name={`${item.from.firstname} ${item.from.lastname}`}
+                bg="teal.600"
+                mr={2}
+              />
               <Flex
                 bg="gray.100"
                 color="black"
+                borderRadius={5}
                 minW="100px"
                 maxW="350px"
                 my="1"

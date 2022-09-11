@@ -1,3 +1,6 @@
+import useAuth from "@/hooks/useAuth";
+import { uuid } from "@/services/helper/uuid";
+import { Message, User } from "@/services/types";
 import { Flex } from "@chakra-ui/react";
 import React, { useState } from "react";
 import Divider from "./app/Divider";
@@ -8,13 +11,17 @@ import Messages from "./app/Messages";
 interface ChatProps {}
 
 const Chat: React.FC<ChatProps> = ({}) => {
-  const [messages, setMessages] = useState([
-    { from: "computer", text: "Hi, My Name is HoneyChat" },
-    { from: "me", text: "Hey there" },
-    { from: "me", text: "Myself Ferin Patel" },
+  const { user } = useAuth();
+  const [messages, setMessages] = useState<Array<Message>>([
     {
-      from: "computer",
-      text: "Nice to meet you. You can send me message and i'll reply you with same message.",
+      id: uuid(),
+      text: "Myself Ferin Patel",
+      created_at: Date.now(),
+      from: {
+        id: "5496",
+        firstname: "emma",
+        lastname: "toba",
+      },
     },
   ]);
   const [inputMessage, setInputMessage] = useState("");
@@ -25,11 +32,31 @@ const Chat: React.FC<ChatProps> = ({}) => {
     }
     const data = inputMessage;
 
-    setMessages((old) => [...old, { from: "me", text: data }]);
+    setMessages((old) => [
+      ...old,
+      {
+        id: uuid(),
+        text: data,
+        created_at: Date.now(),
+        from: user as User,
+      },
+    ]);
     setInputMessage("");
 
     setTimeout(() => {
-      setMessages((old) => [...old, { from: "computer", text: data }]);
+      setMessages((old) => [
+        ...old,
+        {
+          id: uuid(),
+          text: data,
+          created_at: Date.now(),
+          from: {
+            id: uuid(),
+            firstname: "emma",
+            lastname: "toba",
+          },
+        },
+      ]);
     }, 1000);
   };
 
