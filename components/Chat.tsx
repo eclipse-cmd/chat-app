@@ -21,7 +21,7 @@ const Chat: React.FC = ({}) => {
   const [inputMessage, setInputMessage] = useState("");
   const [messages, setMessages] = useState<Array<Message>>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [page, setPage] = useState<number>(messageData.value.length);
+  const [page, setPage] = useState<number>(messageData.value.length - 25);
 
   const handleSendMessage = () => {
     if (!inputMessage.trim().length) {
@@ -45,18 +45,14 @@ const Chat: React.FC = ({}) => {
   };
 
   const loadMore = () => {
-    // setPage(messages.length + 25); to be fixed
+    const pageSize = messageData.value.length - (messages.length + 25);
 
-    const offset =
-      messageData.value.length - page > 0 ? messageData.value.length - page : 0;
-    const limit = messageData.value.length - 25;
+    if (pageSize < 0) {
+      setPage(0);
+      return;
+    }
 
-    console.log("Offset: ", offset);
-    console.log("Limit: ", limit);
-
-    const data = messageData.value.slice(offset, limit);
-
-    setMessages((old) => [...data, ...old]);
+    setPage(pageSize);
   };
 
   useEffect(() => {
@@ -80,7 +76,7 @@ const Chat: React.FC = ({}) => {
       <Flex w={["100%", "100%", "40%"]} h="90%" flexDir="column">
         <Header />
         <Divider />
-        {!loading &&
+        {/* {!loading &&
         messageData.value.length > 25 &&
         messageData.value.length != messages.length ? (
           <HStack>
@@ -90,8 +86,8 @@ const Chat: React.FC = ({}) => {
               </Button>
             </Center>
           </HStack>
-        ) : null}
-        <Messages messages={messages} loading={loading} />
+        ) : null} */}
+        <Messages loadMore={loadMore} messages={messages} loading={loading} />
         <Divider />
         <Footer
           inputMessage={inputMessage}

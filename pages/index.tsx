@@ -7,7 +7,7 @@ import { useEffect } from "react";
 
 const Home: NextPage = () => {
   const router = useRouter();
-  const { auth, user, loading } = useAuth();
+  const { auth, loading } = useAuth();
 
   useEffect(() => {
     if (!loading && !auth) {
@@ -15,22 +15,18 @@ const Home: NextPage = () => {
     }
   }, [auth, loading, router]);
 
-  return (
-    <>
-      {auth ? (
-        <Chat />
-      ) : (
-        <Center minH="100vh">
-          <Spinner
-            thickness="4px"
-            speed="0.65s"
-            emptyColor="gray.200"
-            color="blue.500"
-            size="xl"
-          />
-        </Center>
-      )}
-    </>
+  return auth ? (
+    <Chat />
+  ) : (
+    <Center minH="100vh">
+      <Spinner
+        thickness="4px"
+        speed="0.65s"
+        emptyColor="gray.200"
+        color="blue.500"
+        size="xl"
+      />
+    </Center>
   );
 };
 

@@ -1,15 +1,19 @@
+import { useAppSelector } from "@/hooks";
 import useAuth from "@/hooks/useAuth";
 import { Message } from "@/services/types";
-import { Avatar, Center, Flex, Text } from "@chakra-ui/react";
+import { selectMessages } from "@/store/features/messages";
+import { Avatar, Button, Center, Flex, HStack, Text } from "@chakra-ui/react";
 import React from "react";
 
 interface MessagesProps {
   messages: Array<Message>;
   loading: boolean;
+  loadMore: () => void;
 }
 
-const Messages: React.FC<MessagesProps> = ({ messages, loading }) => {
+const Messages: React.FC<MessagesProps> = ({ messages, loading, loadMore }) => {
   const { user } = useAuth();
+  const messageData = useAppSelector(selectMessages);
 
   return (
     <>
@@ -21,6 +25,17 @@ const Messages: React.FC<MessagesProps> = ({ messages, loading }) => {
         </>
       ) : messages.length > 0 ? (
         <Flex w="100%" h="80%" overflowY="scroll" flexDirection="column" p="3">
+          {!loading &&
+          messageData.value.length > 25 &&
+          messageData.value.length != messages.length ? (
+            <HStack>
+              <Center width="100%" my={5}>
+                <Button onClick={() => loadMore()} size="sm">
+                  Load more
+                </Button>
+              </Center>
+            </HStack>
+          ) : null}
           {messages.map((item, index) => {
             if (item.from.id === user?.id) {
               return (
