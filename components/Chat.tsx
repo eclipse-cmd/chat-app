@@ -76,17 +76,6 @@ const Chat: React.FC = ({}) => {
       <Flex w={["100%", "100%", "40%"]} h="90%" flexDir="column">
         <Header />
         <Divider />
-        {/* {!loading &&
-        messageData.value.length > 25 &&
-        messageData.value.length != messages.length ? (
-          <HStack>
-            <Center width="100%" my={5}>
-              <Button onClick={() => loadMore()} size="sm">
-                Load more
-              </Button>
-            </Center>
-          </HStack>
-        ) : null} */}
         <Messages loadMore={loadMore} messages={messages} loading={loading} />
         <Divider />
         <Footer
